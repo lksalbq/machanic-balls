@@ -8,6 +8,15 @@
 
 int main(int argc, char** argv)
 {
+  Ball ball;  
+
+  const double dt = 1.0/100 ;
+  for (int i = 0 ; i < 100 ; ++i) {
+    ball.step(dt) ;
+    ball.display() ;
+    std::cout << "Velocidade x:"<< ball.getVelocityVx()<<std::endl;
+    std::cout << "Velocidade y:"<< ball.getVelocityVy()<<std::endl;
+  }
   Ball ball1 ;
 
 
@@ -21,12 +30,5 @@ int main(int argc, char** argv)
   
   std::cout<<"Ball2 getPositionX: "<<ball2.getPositionX()<<std::endl ;
   std::cout<<"Ball2 getPositionY: "<<ball2.getPositionY()<<std::endl ;
-  
-
-  // const double dt = 1.0/100 ;
-  // for (int i = 0 ; i < 1 ; ++i) {
-  //   ball.step(dt) ;
-  //   ball.display() ;
-  // }
   return 0 ;
 }

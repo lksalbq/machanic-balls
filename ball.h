@@ -11,17 +11,30 @@
 class Ball : public Simulation
 {
 public:
-  // Constructors and member functions
+  // Constructors
   Ball() ;
   Ball(double x, double y);
+  Ball(double x, double y,double vx, double vy);
+  
+  //member functions
   void step(double dt) ;
   void display() ;
+  
+  //get
   double getPosition();
   double getPositionX();
-  double getPositionY();   
+  double getPositionY();
+  double getVelocityVx();
+  double getVelocityVy();
+
+  //set   
+  void setPosition(double x, double y);
   void setPositionX(double x);
   void setPositionY(double y);
-  void setPosition(double x, double y);
+  void setVelocity(double vx, double vy);
+  void setVelocityVx(double vx);
+  void setVelocityVy(double vy);
+
 protected:
   // Data members
   // Position and velocity of the ball
