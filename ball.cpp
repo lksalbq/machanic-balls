@@ -12,6 +12,32 @@ Ball::Ball()
 xmin(-1), xmax(1), ymin(-1), ymax(1)
 { }
 
+Ball::Ball(double x, double y){
+  this->setPosition(x,y);
+}
+
+void Ball::setPosition(double x, double y){
+  this->x = x;
+  this->y = y;
+}
+
+void Ball::setPositionX(double x){
+  this->x = x;
+}
+
+void Ball::setPositionY(double y){
+  this->y = y;
+}
+
+double Ball::getPositionX(){
+  return this->x;
+}
+
+
+double Ball::getPositionY(){
+  return this->y;
+}
+
 void Ball::step(double dt)
 {
   double xp = x + vx * dt ;
