@@ -1,10 +1,6 @@
 # Mechanic Bouncing Balls - TP1
 ## Bouncing Ball - Task 1
 
-<<<<<<< HEAD
-=======
-[![|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
->>>>>>> c42c14f2717d6d1fc69d39eb4218bc2f0a68312e
 
 ### Objetivo
 
@@ -56,6 +52,4 @@ $./test-ball
 
 > O gráfico a seguir mostra o comportamento da bola a partir da saída exibida acima. Foi gerado usando o software "octave", que a partir de um script contido no arquivo plot_ball.m, cria o gráfico da bola saltando dentro do espaço, dado sua velocidade inicial e posições:
 
-![alt text1][logo]
-
-[logo]:https://gitlab.com/lksalbq/tp1-mechanic-balls/blob/master/img/grafico.png
+[![|Solid](https://gitlab.com/lksalbq/tp1-mechanic-balls/raw/master/img/grafico.png)]
