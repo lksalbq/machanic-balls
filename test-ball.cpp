@@ -6,17 +6,24 @@
 #include "ball.h"
 #include <iostream>
 
+void run(Simulation & s, double dt) {
+  for (int i = 0 ; i < 100 ; ++i) { s.step(dt) ; s.display() ; }
+}
+
 int main(int argc, char** argv)
 {
   Ball ball;  
 
   const double dt = 1.0/100 ;
-  for (int i = 0 ; i < 100 ; ++i) {
-    ball.step(dt) ;
-    ball.display() ;
-    std::cout << "Velocidade x:"<< ball.getVelocityVx()<<std::endl;
-    std::cout << "Velocidade y:"<< ball.getVelocityVy()<<std::endl;
-  }
+  // for (int i = 0 ; i < 100 ; ++i) {
+  //   ball.step(dt) ;
+  //   ball.display() ;
+  //   std::cout << "Velocidade x:"<< ball.getVelocityVx()<<std::endl;
+  //   std::cout << "Velocidade y:"<< ball.getVelocityVy()<<std::endl;
+  // }
+
+  run(ball,dt);
+
   Ball ball1 ;
 
 
