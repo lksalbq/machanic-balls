@@ -1,6 +1,10 @@
 # Mechanic Bouncing Balls - TP1
 ## Bouncing Ball - Task 1
 
+<<<<<<< HEAD
+=======
+[![|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+>>>>>>> c42c14f2717d6d1fc69d39eb4218bc2f0a68312e
 
 ### Objetivo
 
