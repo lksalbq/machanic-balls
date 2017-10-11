@@ -124,7 +124,7 @@ public:
    */
 
   int addMass(Mass * mass1);
-  void addSpring(Mass * mass1, Mass * mass2, double naturalLength, double stiffness, double damping);
+  void addSpring(Mass * mass1, Mass * mass2, double naturalLength,double stiffness,double damping);
 
 protected:
   double gravity ;

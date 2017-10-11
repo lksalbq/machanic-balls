@@ -116,12 +116,14 @@ void Mass::step(double dt)
 
   if((ymin + radius <= positicaoY) && (positicaoY <= ymax - radius)){
     position.y = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
+    velocity.y = velocity.y + (aceleracaoY * dt);
   }else{
     force.y = force.y*(-1);
   }
   
   if((xmin + radius <= positicaoY) && (positicaoY <= xmax - radius)){
     position.x = position.x + velocity.x * dt + ((aceleracaoY *(dt * dt))/2) ;
+    velocity.x = velocity.x + (aceleracaoX * dt);
   }else{
     force.x = force.x*(-1);
   }
@@ -267,13 +269,17 @@ double SpringMass::getEnergy() const
   std::vector<Mass>::const_iterator massIterator;
   std::vector<Spring>::const_iterator springIterator;
 
+  double massEnergy;
   for(massIterator = massVector.begin(); massIterator != massVector.end(); massIterator++) {
-    //energy += massIterator->getEnergy();
+    massEnergy = massEnergy + massIterator->getEnergy(EARTH_GRAVITY);
   }
   
+  double springEnergy;
   for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
-    //energy += springIterator->getEnergy();
+    springEnergy = springEnergy + springIterator->getEnergy();
   }
+
+  energy = springEnergy + massEnergy;
   return energy ;
 }
 
@@ -331,7 +337,7 @@ int SpringMass::addMass(Mass * mass1){
   return (int)massVector.size() -1;
 }
 
-void SpringMass::addSpring(Mass * mass1, Mass * mass2, double naturalLength, double stiffness, double damping){
+void SpringMass::addSpring(Mass * mass1, Mass * mass2, double naturalLength,double stiffness, double damping){
   Spring s(mass1,mass2,naturalLength,stiffness,damping);
   springVector.push_back(s);
 }
