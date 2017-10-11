@@ -23,6 +23,8 @@ int main(int argc, char** argv)
 	(1 linha).
    */
 
+  
+
   const double dt = 1.0/30 ;
   for (int i = 0 ; i < 100 ; ++i) {
     springmass.step(dt) ;

@@ -90,6 +90,14 @@ protected:
      Adicione tambem 2 ponteiros para objetos do tipo Mass 
      (um para cada extremidade da mola).
    */
+  double naturalLength;
+  double stiffness;
+  double damping;
+  Vector2 force;
+
+  Mass *mass1;
+  Mass *mass2;
+
 } ;
 
 /* ---------------------------------------------------------------- */
@@ -115,6 +123,9 @@ public:
          uma mola.       
    */
 
+  int addMass(Mass * mass1);
+  void addSpring(Mass * mass1, Mass * mass2, double naturalLength, double stiffness, double damping);
+
 protected:
   double gravity ;
 
@@ -129,7 +140,10 @@ protected:
      - um vetor de molas.
      Total de codigo para esta lacuna: 4 linhas
    */
-
+  typedef std::vector<Mass> MassVectorType;
+  MassVectorType massVector;
+  typedef std::vector<Spring> SpringVectorType;
+  SpringVectorType springVector;
 } ;
 
 #endif /* defined(__springmass__) */

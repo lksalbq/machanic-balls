@@ -71,6 +71,11 @@ double Mass::getEnergy(double gravity) const
      o solo.
    */
 
+
+  double E_cinetica = mass * (dot(velocity,velocity)/2);
+  double E_potencial = mass * gravity * (ymin+radius);
+  energy = E_potencial + E_cinetica;
+
   return energy ;
 }
 
@@ -97,6 +102,30 @@ void Mass::step(double dt)
      eh melhor separar os calculos de componentes
      x e y da velocidade e da posicao.
    */
+
+
+  Vector2 forcaResultante = force * mass;
+  double aceleracaoY = mass / forcaResultante.y;
+  double aceleracaoX = mass / forcaResultante.x;
+  
+  double positicaoY = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
+  double posicaoX = position.x + velocity.x * dt + ((aceleracaoX *(dt * dt))/2) ;
+
+  double velocidadeY = velocity.y + aceleracaoY*dt;
+  double velocidadeX = velocity.x + aceleracaoX*dt;
+
+  if((ymin + radius <= positicaoY) && (positicaoY <= ymax - radius)){
+    position.y = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
+  }else{
+    force.y = force.y*(-1);
+  }
+  
+  if((xmin + radius <= positicaoY) && (positicaoY <= xmax - radius)){
+    position.x = position.x + velocity.x * dt + ((aceleracaoY *(dt * dt))/2) ;
+  }else{
+    force.x = force.x*(-1);
+  }
+  
 }
 
 /* ---------------------------------------------------------------- */
@@ -152,7 +181,19 @@ Vector2 Spring::getForce() const
      6. O vetor da forca eh entao calculado pelo resultado
         de (5) multiplicado pelo vetor de direcao da mola (3).	
    */
+  Vector2 vectorExtremidades = mass2->getPosition() - mass1->getPosition();
+  
+  double comprimentoAtual = this->getLength();
 
+  Vector2 vetorUnitario = vectorExtremidades / comprimentoAtual;
+  
+  double produtoVelocidade = dot(mass2->getVelocity(),mass1->getVelocity());
+
+  double velocidadeAlongamento = vetorUnitario.norm() * produtoVelocidade;
+
+  double moduloForca = (naturalLength - comprimentoAtual) * stiffness + velocidadeAlongamento * damping;
+
+  F = moduloForca * vetorUnitario;
   return F ;
 }
 
@@ -200,6 +241,18 @@ void SpringMass::display()
      para massas e molas, pois eles foram definidos acima.
      Posteriormente, imprima a energia total do sistema.     
    */
+  std::vector<Mass>::iterator massIterator;
+  std::vector<Spring>::iterator springIterator;
+
+  for(massIterator = massVector.begin(); massIterator != massVector.end();massIterator++) {
+    std::cout<<massIterator->getMass() <<std::endl ;
+  }
+  
+  for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
+    std::cout<<springIterator->getLength() <<std::endl ;
+  }
+
+  std::cout<<this->getEnergy()<<std::endl;
 }
 
 double SpringMass::getEnergy() const
@@ -211,7 +264,16 @@ double SpringMass::getEnergy() const
      a soma das energias de todas as massas 
      + a soma das energias de todas as molas.
    */
+  std::vector<Mass>::const_iterator massIterator;
+  std::vector<Spring>::const_iterator springIterator;
 
+  for(massIterator = massVector.begin(); massIterator != massVector.end(); massIterator++) {
+    //energy += massIterator->getEnergy();
+  }
+  
+  for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
+    //energy += springIterator->getEnergy();
+  }
   return energy ;
 }
 
@@ -231,6 +293,23 @@ void SpringMass::step(double dt)
      3. Atualize a posicao e velocidade de todas as massas,
         i.e., execute o metodo step() delas.
    */
+
+  std::vector<Mass>::iterator massIterator;
+  std::vector<Spring>::iterator springIterator;
+
+  for(massIterator = massVector.begin();massIterator != massVector.end();massIterator++) {
+    massIterator->setForce(g * massIterator->getMass());
+  }
+  
+  for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
+    springIterator->getMass1()->addForce(-1 * (springIterator->getForce()));
+    springIterator->getMass2()->addForce(-1 * (springIterator->getForce()));
+  }
+
+  for(massIterator = massVector.begin();massIterator != massVector.end();massIterator++) {
+    massIterator->step(dt);
+  }
+
 }
 
 
@@ -247,5 +326,12 @@ void SpringMass::step(double dt)
    aos indices do vector de massas para cada extremidade 
    e o construtor de mola.
  */
+int SpringMass::addMass(Mass * mass1){
+  massVector.push_back(*mass1);
+  return (int)massVector.size() -1;
+}
 
-
+void SpringMass::addSpring(Mass * mass1, Mass * mass2, double naturalLength, double stiffness, double damping){
+  Spring s(mass1,mass2,naturalLength,stiffness,damping);
+  springVector.push_back(s);
+}
