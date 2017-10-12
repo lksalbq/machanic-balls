@@ -102,32 +102,31 @@ void Mass::step(double dt)
      eh melhor separar os calculos de componentes
      x e y da velocidade e da posicao.
    */
-
-
-  Vector2 forcaResultante = force * mass;
-  double aceleracaoY = mass / forcaResultante.y;
-  double aceleracaoX = mass / forcaResultante.x;
   
-  double positicaoY = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
+  double aceleracaoY = velocity.y / dt;
+  double aceleracaoX = velocity.x / dt;
+  
+  double posicaoY = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
   double posicaoX = position.x + velocity.x * dt + ((aceleracaoX *(dt * dt))/2) ;
 
   double velocidadeY = velocity.y + aceleracaoY*dt;
   double velocidadeX = velocity.x + aceleracaoX*dt;
 
-  if((ymin + radius <= positicaoY) && (positicaoY <= ymax - radius)){
+  if((ymin + radius <= posicaoY) && (posicaoY <= ymax - radius)){
     position.y = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
     velocity.y = velocity.y + (aceleracaoY * dt);
   }else{
     force.y = force.y*(-1);
+    velocity.y = velocity.y * (-1);
   }
   
-  if((xmin + radius <= positicaoY) && (positicaoY <= xmax - radius)){
-    position.x = position.x + velocity.x * dt + ((aceleracaoY *(dt * dt))/2) ;
+  if((xmin + radius <= posicaoX) && (posicaoX <= xmax - radius)){
+    position.x = position.x + velocity.x * dt + ((aceleracaoX *(dt * dt))/2) ;
     velocity.x = velocity.x + (aceleracaoX * dt);
   }else{
     force.x = force.x*(-1);
+    velocity.x = velocity.x * (-1);
   }
-  
 }
 
 /* ---------------------------------------------------------------- */
@@ -183,19 +182,20 @@ Vector2 Spring::getForce() const
      6. O vetor da forca eh entao calculado pelo resultado
         de (5) multiplicado pelo vetor de direcao da mola (3).	
    */
-  Vector2 vectorExtremidades = mass2->getPosition() - mass1->getPosition();
+  Vector2 u = mass2->getPosition() - mass1->getPosition() ;
   
-  double comprimentoAtual = this->getLength();
+  double dl = u.norm() - naturalLength;
 
-  Vector2 vetorUnitario = vectorExtremidades / comprimentoAtual;
+  Vector2 vetorUnitario = u / dl;
   
   double produtoVelocidade = dot(mass2->getVelocity(),mass1->getVelocity());
 
   double velocidadeAlongamento = vetorUnitario.norm() * produtoVelocidade;
 
-  double moduloForca = (naturalLength - comprimentoAtual) * stiffness + velocidadeAlongamento * damping;
+  double moduloForca = (naturalLength - dl) * stiffness + velocidadeAlongamento * damping;
 
   F = moduloForca * vetorUnitario;
+
   return F ;
 }
 
@@ -273,7 +273,7 @@ double SpringMass::getEnergy() const
   for(massIterator = massVector.begin(); massIterator != massVector.end(); massIterator++) {
     massEnergy = massEnergy + massIterator->getEnergy(EARTH_GRAVITY);
   }
-  
+
   double springEnergy;
   for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
     springEnergy = springEnergy + springIterator->getEnergy();
@@ -308,12 +308,17 @@ void SpringMass::step(double dt)
   }
   
   for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
-    springIterator->getMass1()->addForce(-1 * (springIterator->getForce()));
-    springIterator->getMass2()->addForce(-1 * (springIterator->getForce()));
+    springIterator->getMass1()->addForce(-1 * springIterator->getMass1()->getForce());
+    springIterator->getMass2()->addForce(1 * springIterator->getMass2()->getForce());
   }
 
   for(massIterator = massVector.begin();massIterator != massVector.end();massIterator++) {
     massIterator->step(dt);
+  }
+
+  for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
+    springIterator->getMass1()->step(dt);
+    springIterator->getMass2()->step(dt);
   }
 
 }
