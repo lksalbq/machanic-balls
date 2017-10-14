@@ -106,13 +106,13 @@ void Mass::step(double dt)
   double aceleracaoY = velocity.y / dt;
   double aceleracaoX = velocity.x / dt;
   
-  double posicaoY = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
-  double posicaoX = position.x + velocity.x * dt + ((aceleracaoX *(dt * dt))/2) ;
+  // double posicaoY = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
+  // double posicaoX = position.x + velocity.x * dt + ((aceleracaoX *(dt * dt))/2) ;
 
-  double velocidadeY = velocity.y + aceleracaoY*dt;
-  double velocidadeX = velocity.x + aceleracaoX*dt;
+  // double velocidadeY = velocity.y + aceleracaoY*dt;
+  // double velocidadeX = velocity.x + aceleracaoX*dt;
 
-  if((ymin + radius <= posicaoY) && (posicaoY <= ymax - radius)){
+  if((ymin + radius <= position.y) && (position.y <= ymax - radius)){
     position.y = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
     velocity.y = velocity.y + (aceleracaoY * dt);
   }else{
@@ -120,7 +120,7 @@ void Mass::step(double dt)
     velocity.y = velocity.y * (-1);
   }
   
-  if((xmin + radius <= posicaoX) && (posicaoX <= xmax - radius)){
+  if((xmin + radius <= position.x) && (position.x <= xmax - radius)){
     position.x = position.x + velocity.x * dt + ((aceleracaoX *(dt * dt))/2) ;
     velocity.x = velocity.x + (aceleracaoX * dt);
   }else{
@@ -247,14 +247,14 @@ void SpringMass::display()
   std::vector<Spring>::iterator springIterator;
 
   for(massIterator = massVector.begin(); massIterator != massVector.end();massIterator++) {
-    std::cout<<massIterator->getMass() <<std::endl ;
+    std::cout<<massIterator->getPosition().x<<" "<<massIterator->getPosition().y<<std::endl ;
   }
   
   for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
     std::cout<<springIterator->getLength() <<std::endl ;
   }
 
-  std::cout<<this->getEnergy()<<std::endl;
+  //std::cout<<this->getEnergy()<<std::endl;
 }
 
 double SpringMass::getEnergy() const
@@ -308,18 +308,18 @@ void SpringMass::step(double dt)
   }
   
   for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
-    springIterator->getMass1()->addForce(-1 * springIterator->getMass1()->getForce());
-    springIterator->getMass2()->addForce(1 * springIterator->getMass2()->getForce());
+    springIterator->getMass1()->addForce(-1 * springIterator->getForce());
+    springIterator->getMass2()->addForce(1 * springIterator->getForce());
   }
 
   for(massIterator = massVector.begin();massIterator != massVector.end();massIterator++) {
     massIterator->step(dt);
   }
 
-  for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
-    springIterator->getMass1()->step(dt);
-    springIterator->getMass2()->step(dt);
-  }
+  // for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
+  //   springIterator->getMass1()->step(dt);
+  //   springIterator->getMass2()->step(dt);
+  // }
 
 }
 
