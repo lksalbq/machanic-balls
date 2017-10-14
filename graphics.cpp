@@ -185,8 +185,8 @@ void Figure::update() const
 void Figure::draw()
 {
   makeCurrent() ;
-  // glClearColor(1.0, 1.0, 1.0, 1.0) ;
-  glClearColor(1.0, 1.0, 0.8, 1.0) ; // pale yellow
+  glClearColor(1.0, 1.0, 1.0, 1.0) ;
+  //glClearColor(1.0, 1.0, 0.8, 1.0) ; // pale yellow
   glClear(GL_COLOR_BUFFER_BIT);
   glCallList(glGrid) ;
 

@@ -72,8 +72,8 @@ double Mass::getEnergy(double gravity) const
    */
 
 
-  double E_cinetica = mass * (dot(velocity,velocity)/2);
-  double E_potencial = mass * gravity * (ymin+radius);
+  double E_cinetica = mass * (this->getVelocity().norm2()/2);
+  double E_potencial = mass * gravity * (this->getPosition().y - this->getRadius());
   energy = E_potencial + E_cinetica;
 
   return energy ;
@@ -103,28 +103,39 @@ void Mass::step(double dt)
      x e y da velocidade e da posicao.
    */
   
-  double aceleracaoY = velocity.y / dt;
-  double aceleracaoX = velocity.x / dt;
+  Vector2 a = (this->getForce()) / (this->getMass());
   
-  // double posicaoY = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
-  // double posicaoX = position.x + velocity.x * dt + ((aceleracaoX *(dt * dt))/2) ;
+  position.y= position.y + velocity.y * dt + ((a.y *(dt * dt))/2) ;
+  position.x = position.x + velocity.x * dt + ((a.x *(dt * dt))/2) ;
 
-  // double velocidadeY = velocity.y + aceleracaoY*dt;
-  // double velocidadeX = velocity.x + aceleracaoX*dt;
+  velocity = velocity+(a*dt);
+  
+  //atualizando posicao Y
+  if(position.y <= ymin + radius){
+    position.y = ymin+radius;
+  }
 
-  if((ymin + radius <= position.y) && (position.y <= ymax - radius)){
-    position.y = position.y + velocity.y * dt + ((aceleracaoY *(dt * dt))/2) ;
-    velocity.y = velocity.y + (aceleracaoY * dt);
-  }else{
-    force.y = force.y*(-1);
+  if(position.y >= ymax - radius){
+    position.y = ymax-radius;
+  }
+
+  //Atualizando posicao X
+  if(position.x <= xmin + radius){
+    position.x = xmin+radius;
+  }
+
+  if(position.x >= xmax - radius){
+    position.x = xmax-radius;
+  }
+
+  
+  if(ymin + radius == position.y || position.y == ymax - radius){
+    force.y = force.y * (-1);
     velocity.y = velocity.y * (-1);
   }
   
-  if((xmin + radius <= position.x) && (position.x <= xmax - radius)){
-    position.x = position.x + velocity.x * dt + ((aceleracaoX *(dt * dt))/2) ;
-    velocity.x = velocity.x + (aceleracaoX * dt);
-  }else{
-    force.x = force.x*(-1);
+  if(xmin + radius == position.x || position.x == xmax - radius){
+    force.x = force.x * (-1);
     velocity.x = velocity.x * (-1);
   }
 }
@@ -184,7 +195,7 @@ Vector2 Spring::getForce() const
    */
   Vector2 u = mass2->getPosition() - mass1->getPosition() ;
   
-  double dl = u.norm() - naturalLength;
+  double dl = u.norm() - this->getLength();
 
   Vector2 vetorUnitario = u / dl;
   
@@ -213,15 +224,14 @@ double Spring::getEnergy() const {
 
 std::ostream& operator << (std::ostream& os, const Mass& m)
 {
-  os<<"("
-  <<m.getPosition().x<<","
-  <<m.getPosition().y<<")" ;
+  os <<m.getPosition().x<<","
+  <<m.getPosition().y ;
   return os ;
 }
 
 std::ostream& operator << (std::ostream& os, const Spring& s)
 {
-  return os<<"$"<<s.getLength() ;
+  return os<<s.getLength() ;
 }
 
 /* ---------------------------------------------------------------- */
@@ -247,14 +257,14 @@ void SpringMass::display()
   std::vector<Spring>::iterator springIterator;
 
   for(massIterator = massVector.begin(); massIterator != massVector.end();massIterator++) {
-    std::cout<<massIterator->getPosition().x<<" "<<massIterator->getPosition().y<<std::endl ;
+    std::cout<< *massIterator <<std::endl;
   }
   
-  for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
-    std::cout<<springIterator->getLength() <<std::endl ;
-  }
+  // for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
+  //   std::cout<<*springIterator<<std::endl ;
+  // }
 
-  //std::cout<<this->getEnergy()<<std::endl;
+  // std::cout<<getEnergy()<<std::endl;
 }
 
 double SpringMass::getEnergy() const
@@ -315,11 +325,6 @@ void SpringMass::step(double dt)
   for(massIterator = massVector.begin();massIterator != massVector.end();massIterator++) {
     massIterator->step(dt);
   }
-
-  // for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
-  //   springIterator->getMass1()->step(dt);
-  //   springIterator->getMass2()->step(dt);
-  // }
 
 }
 

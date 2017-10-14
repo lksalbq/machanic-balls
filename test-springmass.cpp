@@ -13,10 +13,10 @@ int main(int argc, char** argv)
   const double radius = 0.02 ;
   const double naturalLength = 0.95 ;
   const double stiffness = 0.5;
-  const double damping = 0.1;
+  const double damping = 0.6;
 
-  Mass m1(Vector2(-.9,0), Vector2(0.1,0.2), mass, radius) ;
-  Mass m2(Vector2(+.5,0), Vector2(0.35,0.1), mass, radius) ;
+  Mass m1(Vector2(-.9,0.4), Vector2(4,2), mass, radius) ;
+  Mass m2(Vector2(+.5,-0.1), Vector2(2.35,3), mass, radius) ;
 
   /* INCOMPLETE: TYPE YOUR CODE HERE 
      1. Adicione as duas massas instanciadas acima (2 linhas).

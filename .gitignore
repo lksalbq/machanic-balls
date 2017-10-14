@@ -1,4 +1,7 @@
 *.pdf
 *.txt
 *.exe
+*.m
+*.txt
 test-ball
+config
