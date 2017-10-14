@@ -48,7 +48,7 @@ $./test-ball
 
 ## Diagrama de Classe
 
-[![|Solid](https://gitlab.com/lksalbq/tp1-mechanic-balls/raw/master/img/class_diagram.png)]
+![|Solid](https://gitlab.com/lksalbq/tp1-mechanic-balls/raw/master/img/class_diagram.png)]
 
 ## Gráfico do comportamento da bola
 
@@ -72,21 +72,17 @@ $./test-springmass
 > Que irá gerar a saída, por exemplo:
 
 ```sh
--0.895 0.01
-0.5175 0.005
-1.4
--0.885 0.03
-0.5525 0.015
-1.4
--0.865 0.07
-0.6225 0.035
-1.4
--0.825 0.15
-0.7625 0.075
-1.4
--0.745 0.31
-1.0425 0.155
-1.4
+-0.766667,0.465767
+0.578333,-0.0009
+-0.633333,0.529733
+0.656667,0.0964
+-0.5,0.5919
+0.735,0.1919
+-0.366667,0.652267
+0.813333,0.2856
+-0.233333,0.710833
+0.891667,0.3775
+-0.1,0.7676
 ```
 
 ## Gráfico de trajetória da SpringMass
