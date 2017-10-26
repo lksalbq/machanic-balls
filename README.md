@@ -48,7 +48,7 @@ $./test-ball
 
 ## Diagrama de Classe
 
-![|Solid](https://gitlab.com/lksalbq/tp1-mechanic-balls/raw/master/img/class_diagram.png)]
+![|Solid](https://gitlab.com/lksalbq/tp1-mechanic-balls/raw/master/img/class_diagram_n.png)]
 
 ## Gráfico do comportamento da bola
 
@@ -72,20 +72,32 @@ $./test-springmass
 > Que irá gerar a saída, por exemplo:
 
 ```sh
--0.766667,0.465767
-0.578333,-0.0009
--0.633333,0.529733
-0.656667,0.0964
--0.5,0.5919
-0.735,0.1919
--0.366667,0.652267
-0.813333,0.2856
--0.233333,0.710833
-0.891667,0.3775
--0.1,0.7676
+-0.866667 0.405767 0.545 -0.0675667 1.48661
+-0.833333 0.409733 0.59 -0.0369333 1.48661
+-0.8 0.4119 0.635 -0.0081 1.48661
+-0.766667 0.412267 0.68 0.0189333 1.48661
+-0.733333 0.410833 0.725 0.0441667 1.48661
+-0.7 0.4076 0.77 0.0676 1.48661
+-0.666667 0.402567 0.815 0.0892333 1.48661
+-0.633333 0.395733 0.86 0.109067 1.48661
+-0.6 0.3871 0.905 0.1271 1.48661
+-0.566667 0.376667 0.95 0.143333 1.48661
+-0.533333 0.364433 0.98 0.157767 1.48661
+-0.5 0.3504 0.935 0.1704 1.48661
+-0.466667 0.334567 0.89 0.181233 1.48661
+-0.433333 0.316933 0.845 0.190267 1.48661
 ```
 
-## Gráfico de trajetória da SpringMass
+## Gráfico - SpringMass
 
-> O gráfico a seguir mostra a trajetória da bola a partir da saída gera:
+> O gráfico a seguir mostra a trajetória da massa e da mola que pode ser "plotada" usando o software octave, a partir do script plot_spring.m, que lê o arquivo x.txt que poder gerado em sistemas operacionais linux da seguinte forma:
+
+```sh
+./test-springmass > x.txt
+```
+
+### Gráfico 
+
+![|Solid](https://gitlab.com/lksalbq/tp1-mechanic-balls/raw/master/img/spring-mass-graphic.png)
+
 

@@ -229,9 +229,9 @@ void Figure::drawCircle(double x, double y, double r)
     glCircle = glGenLists(1) ;
     glNewList(glCircle, GL_COMPILE) ;
     glBegin(GL_TRIANGLE_FAN);
-    glColor3d(0.0, 1.0, 0.0) ; // First line segment: green outline
+    glColor3d(0.1, 1.0, 0.1) ; // First line segment: green outline
     glVertex2d(0,0) ;
-    int numSegments = 3; //128;
+    int numSegments = 128; //128;
     for (int i = 0; i <= numSegments; i++) {
       double angle = i * 2.0 * 3.1468 / numSegments;
       glColor3d(i/numSegments,0, 1-i/numSegments) ; // shades of purple

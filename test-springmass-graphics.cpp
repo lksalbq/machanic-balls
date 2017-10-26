@@ -17,6 +17,7 @@ class SpringMassDrawable : public SpringMass, public Drawable
 private:
   Figure figure ;
   std::vector<Mass>::iterator massIterator;
+  std::vector<Spring>::iterator springIterator;
 public:
   SpringMassDrawable()
   : figure("SpringMass")
@@ -25,10 +26,12 @@ public:
   }
 
   void draw() {
-  	for(massIterator = massVector.begin();massIterator != massVector.end();massIterator++) {
-    	figure.drawCircle(massIterator->getPosition().x,massIterator->getPosition().y,massIterator->getRadius());
-  	}
-    
+  	  
+      for(massIterator = massVector.begin();massIterator != massVector.end();massIterator++) {
+        figure.drawCircle(massIterator->getPosition().x,massIterator->getPosition().y,massIterator->getRadius());
+        figure.drawLine(massVector[0].getPosition().x,massVector[0].getPosition().y,massVector[1].getPosition().x,massVector[1].getPosition().y,0.1);
+      }
+      
   }
 
   void display() {
@@ -41,7 +44,7 @@ int main(int argc, char** argv)
 {
   glutInit(&argc,argv) ;
 
-  SpringMassDrawable springmass ;
+  SpringMassDrawable springmass;
 
   const double mass = 0.05 ;
   const double radius = 0.03 ;
@@ -51,8 +54,6 @@ int main(int argc, char** argv)
 
   Mass m1(Vector2(-.9,0.7), Vector2(2,1.1), mass, radius) ;
   Mass m2(Vector2(+.5,-0.3), Vector2(0.35,3), mass, radius) ;
-
-
 
   springmass.addMass(&m1);
   springmass.addMass(&m2);

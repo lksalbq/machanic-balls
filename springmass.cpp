@@ -224,8 +224,7 @@ double Spring::getEnergy() const {
 
 std::ostream& operator << (std::ostream& os, const Mass& m)
 {
-  os <<m.getPosition().x<<","
-  <<m.getPosition().y ;
+  os <<m.getPosition().x<<" "<<m.getPosition().y<<" ";
   return os ;
 }
 
@@ -257,12 +256,12 @@ void SpringMass::display()
   std::vector<Spring>::iterator springIterator;
 
   for(massIterator = massVector.begin(); massIterator != massVector.end();massIterator++) {
-    std::cout<< *massIterator <<std::endl;
+    std::cout<< *massIterator;
   }
   
-  // for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
-  //   std::cout<<*springIterator<<std::endl ;
-  // }
+  for(springIterator = springVector.begin();springIterator != springVector.end();springIterator++){
+    std::cout<<*springIterator;
+  }
 
   // std::cout<<getEnergy()<<std::endl;
 }
